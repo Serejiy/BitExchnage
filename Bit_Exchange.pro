@@ -9,17 +9,20 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    charts.cpp \
     login.cpp \
     main.cpp \
     registration.cpp \
     welcomepage.cpp
 
 HEADERS += \
+    charts.h \
     login.h \
     registration.h \
     welcomepage.h
 
 FORMS += \
+    charts.ui \
     login.ui \
     registration.ui \
     welcomepage.ui
