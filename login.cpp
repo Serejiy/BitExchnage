@@ -1,7 +1,7 @@
 #include "login.h"
 #include "ui_login.h"
 #include "welcomepage.h"
-#include "QString"
+#include "charts.h"
 
 #define Path_to_DB "C:/Users/nomi4/Desktop/Bit_Exchange/DB/db.db"
 
@@ -48,11 +48,14 @@ void login::on_loginBtn_clicked()
         if(qry.next())
         {
             ui->label_3->setText("[+]Valid Username and Password");
-            QString msg = "Username = " + qry.value(0).toString()+ "\n" +
-                          "Pasword =" + qry.value(1).toString() + "\n" +
-                          "Role =" + qry.value(2).toString();
+            QString msg = "Username = " + qry.value(0).toString() + "\n";
 
             QMessageBox::warning(this, "Login was successful", msg);
+
+            charts *chartsPage = new charts();
+            chartsPage->show();
+            close();
+
         }else{
             ui->label_3->setText("[-]Wrong username or password. :(");
         }
@@ -64,7 +67,7 @@ void login::on_pushButton_2_clicked()
 {
     welcomepage *welcomePage = new welcomepage();
     welcomePage->show();
-    hide();
+    close();
 
 }
 
