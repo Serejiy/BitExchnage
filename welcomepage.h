@@ -25,8 +25,4 @@ private slots:
 private:
     Ui::welcomepage *ui;
 };
-<<<<<<< HEAD
 #endif
-=======
-#endif // WELCOMEPAGE_H
->>>>>>> 56574a742599998160a589b0df374320011c6ce8
