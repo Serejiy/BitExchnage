@@ -1,7 +1,7 @@
 #include "login.h"
 #include "ui_login.h"
 #include "welcomepage.h"
-#include "charts.h"
+#include "mainwindow.h"
 
 #define Path_to_DB "C:/Users/nomi4/Desktop/Bit_Exchange/DB/db.db"
 
@@ -17,10 +17,10 @@ login::login(QWidget *parent)
 
     if (checkFile.isFile()){
         if (myDB.open()){
-            ui->label_3->setText("[+] Connected to Database File :)");
+            qDebug()<< "Connected to the databasedile :)";
         }
     } else {
-        ui->label_3->setText("[+] Database File does not exist :(");
+        qDebug()<< "Database file not found :(";
     }
 }
 
@@ -47,17 +47,17 @@ void login::on_loginBtn_clicked()
     {
         if(qry.next())
         {
-            ui->label_3->setText("[+]Valid Username and Password");
-            QString msg = "Username = " + qry.value(0).toString() + "\n";
+            //ui->label_3->setText("[+]Valid Username and Password");
+            //QString msg = "Username = " + qry.value(0).toString() + "\n";
 
-            QMessageBox::warning(this, "Login was successful", msg);
+            //QMessageBox::warning(this, "Login was successful", msg);
 
-            charts *chartsPage = new charts();
-            chartsPage->show();
+            MainWindow *mainwindowPage = new MainWindow();
+            mainwindowPage->show();
             close();
 
         }else{
-            ui->label_3->setText("[-]Wrong username or password. :(");
+            QMessageBox::information(this,"Inserted","Wrong username or password.");
         }
     }
 }

@@ -1,4 +1,3 @@
-// login.h
 #ifndef LOGIN_H
 #define LOGIN_H
 
@@ -38,4 +37,4 @@ private:
     QSqlDatabase myDB;
 };
 
-#endif // LOGIN_H
+#endif

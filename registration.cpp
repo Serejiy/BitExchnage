@@ -19,10 +19,10 @@ registration::registration(QWidget *parent)
 
     if (checkFile.isFile()){
         if (myDB.open()){
-            ui->label_3->setText("[+] Connected to Database File :)");
+            qDebug()<< "Connected to the databasedile :)";
         }
     } else {
-        ui->label_3->setText("[+] Database File does not exist :(");
+        qDebug()<< "Database file not found :(";
     }
 
 }
