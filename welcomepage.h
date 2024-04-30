@@ -25,4 +25,4 @@ private slots:
 private:
     Ui::welcomepage *ui;
 };
-#endif // WELCOMEPAGE_H
+#endif
