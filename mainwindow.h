@@ -63,37 +63,19 @@ private:
 
     bool _bReady;
     double _currentPrice;
-
-    //double _buyPrice;
-    //double _sellPrice;
-
-    //double _ethBal;
-    //double _wtcBal;
-
-    //bool _buyMode;
-
-    //bool _orderPending;
     double _priceOrder;
-
-    //bool _orderMessage;
 
 
 
 public slots:
     void onPrice();
     void onPriceReply(double price);
-    //void onBalanceReply(double eth, double wtc);
     void onRefreshSTimeReply(qulonglong stime);
     void onCandleReply(QJsonArray jcandleArray);
-    //void onOrderReply(bool filled);
-    //void onRefreshAccount();
     void onRefreshCandles();
     void onRefreshSTime();
 
 private slots:
-    //void on_pushButtonBuy_clicked();
-    //void on_pushButtonSell_clicked();
-    //void on_checkBoxAutoTrade_clicked(bool checked);
     void on_Hour_clicked();
     void on_TwoHours_clicked();
     void on_FourHours_clicked();
@@ -103,6 +85,12 @@ private slots:
     void on_radioButton_4_clicked();
     void on_radioButton_5_clicked();
     void on_PlaceOrder_clicked();
+
+    void on_EightHours_clicked();
+    void on_TwentyFourHours_clicked();
+    void on_Buybtn_clicked();
+    void on_Selbtn_clicked();
+    void on_horizontalSlider_actionTriggered(int action);
 };
 
-#endif // MAINWINDOW_H
+#endif
