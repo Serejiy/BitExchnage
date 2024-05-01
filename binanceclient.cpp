@@ -47,7 +47,6 @@ void binanceClient::getAllPrices()
     netReq.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     netReq.setUrl(url);
     qDebug() << url;
-    //_networkManager->get(netReq);
 }
 
 void binanceClient::getSymbolPrice(const QString &name)
