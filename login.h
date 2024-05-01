@@ -32,7 +32,7 @@ private slots:
 
 private:
     Ui::login *ui;
-    welcomepage *welcomePage; // Указатель на страницу приветствия
+    welcomepage *welcomePage;
 
     QSqlDatabase myDB;
 };
