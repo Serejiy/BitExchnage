@@ -47,11 +47,6 @@ void login::on_loginBtn_clicked()
     {
         if(qry.next())
         {
-            //ui->label_3->setText("[+]Valid Username and Password");
-            //QString msg = "Username = " + qry.value(0).toString() + "\n";
-
-            //QMessageBox::warning(this, "Login was successful", msg);
-
             MainWindow *mainwindowPage = new MainWindow();
             mainwindowPage->show();
             close();
