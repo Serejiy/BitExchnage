@@ -3,9 +3,14 @@
 #include <QDir>
 #include <QSettings>
 
-MainWindow::MainWindow(QWidget *parent) :
+#define Path_to_DB "C:/Users/nomi4/Desktop/Bit_Exchange/DB/db.db"
+
+//double USDT_value, BTC_value, ETH_value, BNB_value, PEPE_value, DOGE_value;
+
+MainWindow::MainWindow(const QString& username, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    m_username(username),
     _currentPrice(0.0),
     _bReady(false),
     _serverTime(0),
@@ -15,6 +20,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     QIcon icon(":/images/logo.png");
     setWindowIcon(icon);
+
+    ui->UserLabel->setText(m_username);
+    qDebug()<<"test";
+    labels_update(); // Вызываем метод для обновления меток
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(Path_to_DB);
+    if(db.open()) {
+        labels_update();
+        qDebug() << "Database connected!";
+    } else {
+        qDebug() << "Failed to connect to the database!";
+    }
 
     QString path(QDir::currentPath() + QDir::separator() + "key.ini");
     QSettings settings(path, QSettings::IniFormat);
@@ -53,6 +71,56 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::labels_update()
+{
+    if (!QSqlDatabase::contains("qt_sql_default_connection")) {
+        qDebug() << "No connection to db :(";
+        return;
+    }
+
+    QSqlDatabase myDB = QSqlDatabase::database("qt_sql_default_connection");
+    if (!myDB.isOpen()) {
+        qDebug() << "Failed to open the database!";
+        return;
+    }
+
+    QSqlQuery qry(myDB);
+    if(qry.exec("SELECT Username,USDT, BTC, ETH, BNB, PEPE, DOGE FROM users WHERE Username =" + m_username))
+    {
+        qDebug()<< "exec";
+        if(qry.next())
+        {
+            double USDT_value = qry.value(1).toDouble();
+            double BTC_value = qry.value(2).toDouble();
+            double ETH_value = qry.value(3).toDouble();
+            double BNB_value = qry.value(4).toDouble();
+            double PEPE_value = qry.value(5).toDouble();
+            double DOGE_value = qry.value(6).toDouble();
+
+            QString USDT_string, BTC_string, ETH_string, BNB_string, PEPE_string, DOGE_string;
+
+            USDT_string = QString::number(USDT_value);
+            BTC_string = QString::number(BTC_value);
+            ETH_string = QString::number(ETH_value);
+            BNB_string = QString::number(BNB_value);
+            PEPE_string = QString::number(PEPE_value);
+            DOGE_string = QString::number(DOGE_value);
+
+            ui->USDTOutput->setText(USDT_string);
+            ui->BTCValue->setText(BTC_string);
+            ui->ETHValue->setText(ETH_string);
+            ui->BNBValue->setText(BNB_string);
+            ui->PEPEValue->setText(PEPE_string);
+            ui->DOGEValue->setText(DOGE_string);
+
+        } else {
+            QMessageBox::information(this, "Error", "Failed to fetch data from database!");
+        }
+    } else {
+        QMessageBox::information(this, "Error", "Query execution failed!");
+    }
 }
 
 void MainWindow::onPrice()
@@ -189,35 +257,32 @@ void priceThread::run()
 void MainWindow::on_radioButton_2_clicked()
 {
     _ccurrency = "ETH";
-    ui->Token->setText("ETH");
 }
 
 
 void MainWindow::on_radioButton_clicked()
 {
     _ccurrency = "BTC";
-    ui->Token->setText("BTC");
 }
 
 
 void MainWindow::on_radioButton_3_clicked()
 {
     _ccurrency = "BNB";
-    ui->Token->setText("BNB");
 }
 
 
 void MainWindow::on_radioButton_4_clicked()
 {
     _ccurrency = "PEPE";
-    ui->Token->setText("PEPE");
+
 }
 
 
 void MainWindow::on_radioButton_5_clicked()
 {
     _ccurrency = "DOGE";
-    ui->Token->setText("DOGE");
+
 }
 
 
@@ -250,11 +315,3 @@ void MainWindow::on_Selbtn_clicked()
 {
     ui->Execbtn->setText("Sell");
 }
-
-
-void MainWindow::on_horizontalSlider_actionTriggered(int action)
-{
-    //connect(ui->horizontalSlider, &QSlider::valueChanged, this, &MainWindow::sliderValueChanged);
-
-}
-
