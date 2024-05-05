@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QDebug>
 #include <QtSql>
+#include <QSqlDatabase>
 #include <QFileInfo>
 #include <QMessageBox>
 
@@ -17,6 +18,9 @@ QT_END_NAMESPACE
 class login : public QWidget
 {
     Q_OBJECT
+
+signals:
+
 
 public:
     explicit login(QWidget *parent = nullptr);
