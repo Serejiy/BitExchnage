@@ -7,18 +7,17 @@
 #include <QThread>
 #include <QMutex>
 
+#include <QtSql>
+#include <QSqlDatabase>
+#include <QFileInfo>
+
 #include <QtCharts>
 
 #include "candlesticksview.h"
 
-//using namespace QtCharts;
-
-
-
 namespace Ui {
 class MainWindow;
 }
-
 
 class priceThread: public QThread
 {
@@ -44,7 +43,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(const QString& username, QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
@@ -55,16 +54,16 @@ private:
     QChart* _chart = new QChart();
     candleSticksView* _chartView;
 
-
     qulonglong _serverTime;
 
     QString _ccurrency;
-
 
     bool _bReady;
     double _currentPrice;
     double _priceOrder;
 
+    QSqlDatabase myDB;
+    QString m_username;
 
 
 public slots:
@@ -85,12 +84,12 @@ private slots:
     void on_radioButton_4_clicked();
     void on_radioButton_5_clicked();
     void on_PlaceOrder_clicked();
-
     void on_EightHours_clicked();
     void on_TwentyFourHours_clicked();
     void on_Buybtn_clicked();
     void on_Selbtn_clicked();
-    void on_horizontalSlider_actionTriggered(int action);
+    void labels_update();
 };
 
-#endif
+#endif // MAINWINDOW_H
+
