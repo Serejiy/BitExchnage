@@ -17,7 +17,7 @@ login::login(QWidget *parent)
 
     if (checkFile.isFile()){
         if (myDB.open()){
-            qDebug()<< "Connected to the databasedile :)";
+            qDebug()<< "Connected to the databasedile m :)";
         }
     } else {
         qDebug()<< "Database file not found :(";
@@ -34,20 +34,42 @@ login::~login()
 void login::on_loginBtn_clicked()
 {
     QString Username, Password;
+
     Username = ui->txtUser->text();
     Password = ui->txtPass->text();
+
 
     if (!myDB.isOpen()){
         qDebug() << "No connection to db :(";
         return;
     }
 
+
     QSqlQuery qry;
-    if(qry.exec("SELECT Username,Password, Role FROM Users WHERE Username=\'" + Username + "\' AND Password=\'" + Password + "\'"))
+    if(qry.exec("SELECT Username,Password, Role, USDT, BTC, ETH, BNB, PEPE, DOGE FROM Users WHERE Username=\'" + Username + "\' AND Password=\'" + Password + "\'"))
     {
         if(qry.next())
         {
-            MainWindow *mainwindowPage = new MainWindow();
+            //user_value;
+            QString user_value = qry.value(0).toString();
+            /*double USDT_value = qry.value(3).toDouble();
+            double BTC_value = qry.value(4).toDouble();
+            double ETH_value = qry.value(5).toDouble();
+            double BNB_value = qry.value(6).toDouble();
+            double PEPE_value = qry.value(7).toDouble();
+            double DOGE_value = qry.value(8).toDouble();
+
+            // Выводим значения в консоль для проверки
+            qDebug()<< "Username" << user_value;
+
+            qDebug() << "USDT" << USDT_value << " ";
+            qDebug() << "BTC:" << BTC_value<< " ";
+            qDebug() << "ETH:" << ETH_value<< " ";
+            qDebug() << "BNB:" << BNB_value<< " ";
+            qDebug() << "PEPE:" << PEPE_value<< " ";
+            qDebug() << "DOGE:" << DOGE_value<< " ";*/
+
+            MainWindow *mainwindowPage = new MainWindow(user_value);
             mainwindowPage->show();
             close();
 
@@ -71,5 +93,6 @@ void login::on_pushButton_3_clicked()
     ui->txtPass->setText("");
     ui->txtUser->setText("");
 }
+
 
 
