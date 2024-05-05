@@ -19,17 +19,15 @@ registration::registration(QWidget *parent)
 
     if (checkFile.isFile()){
         if (myDB.open()){
-            qDebug()<< "Connected to the databasedile :)";
+            qDebug()<< "Connected to the database file :)";
         }
     } else {
         qDebug()<< "Database file not found :(";
     }
-
 }
 
 registration::~registration()
 {
-
     delete ui;
 }
 
@@ -52,21 +50,30 @@ void registration::on_regButton_clicked()
         qry.bindValue(":Password",password);
 
         if (qry.exec()){
+            QMessageBox::information(this,"Inserted","Data Inserted Successfully");
 
-            QMessageBox::information(this,"Inserted","Data Inserted Successfuly");
+            // Получаем ID только что зарегистрированного пользователя
+            int userId = qry.lastInsertId().toInt();
+
+            // Обновляем поле USDT для только что зарегистрированного пользователя
+            QSqlQuery updateQuery;
+            updateQuery.prepare("UPDATE users SET USDT = 1000, BTC = 0, ETH = 0,BNB = 0, PEPE = 0, DOGE = 0 WHERE ID = :userId");
+            updateQuery.bindValue(":userId", userId);
+
+            if (updateQuery.exec()) {
+                qDebug() << "Значение баланса USDT успешно обновлено для пользователя с id" << userId;
+            } else {
+                qDebug() << "Ошибка при обновлении баланса USDT:" << updateQuery.lastError().text();
+            }
 
             login *loginPage = new login();
             loginPage->show();
             close();
-
-        }else{
-            QMessageBox::information(this,"Not inserted","Data Inserted Unsuccessfuly");
+        } else {
+            QMessageBox::information(this,"Not inserted","Data Inserted Unsuccessfully");
         }
-
     }
-
 }
-
 
 void registration::on_clearButton_clicked()
 {
@@ -74,11 +81,12 @@ void registration::on_clearButton_clicked()
     ui->txtUser->setText("");
 }
 
-
 void registration::on_backButton_clicked()
 {
     welcomepage *welcomePage = new welcomepage();
     welcomePage->show();
     close();
 }
+
+
 
