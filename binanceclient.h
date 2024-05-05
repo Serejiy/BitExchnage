@@ -104,9 +104,7 @@ private:
     QNetworkAccessManager* _networkManagerCandle;
 
 public slots:
-    //void replyFinishedAccount(QNetworkReply* reply);
     void replyFinishedPrice(QNetworkReply* reply);
-    //void replyFinishedOrder(QNetworkReply* reply);
     void replyFinishedCandle(QNetworkReply* reply);
     void replyFinishedSTime(QNetworkReply *reply);
 
@@ -120,4 +118,4 @@ signals:
     void orderStatusSignal(bool filled);
 };
 
-#endif // BINANCECLIENT_H
+#endif
